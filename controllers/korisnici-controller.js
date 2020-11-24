@@ -1,5 +1,7 @@
 const korisnici=require('../database/tabela-korisnici');
+const jwt=require('../auth/jwt');
 const bcrypt = require('bcrypt');
+const { JsonWebTokenError } = require('jsonwebtoken');
 const saltRounds = 10;
 
 async function prikazi(req, res) {
@@ -15,7 +17,7 @@ async function prikazi(req, res) {
 
 async function prikaziJedan(req, res) {
   try{
-    const s = await korisnici.select1(req.params.id);
+    const s = await korisnici.selectID(req.params.id);
     //console.log("S: "+s);
     res.status(200).json(s);
   }
@@ -41,9 +43,32 @@ async function signUp(req,res){
   }
 }
 
+async function logIn(req,res){
+
+  try{
+    const k = await korisnici.selectUsername(req.body.username);
+    if(k==undefined)
+      return res.status(401).json({err:'Pogrešno korisničko ime'});
+    //console.log(req.body.password, k.password)
+    const match = await bcrypt.compare(req.body.password, k.password);
+    if(!match)
+      return res.status(401).json({err:'Pogrešna lozinka'});
+
+    const token=jwt.generisiToken(k.id,k.verifikovan);
+    res.status(200).json({token:token});
+  } catch(err){
+    console.error(err);
+    if(err.message=='Korisnik sa unetim imenom već postoji')
+      res.status(403).json(err);
+    else
+      res.status(500).json(err);
+  }
+}
+
 
 module.exports = {
   prikazi,
   prikaziJedan,
-  signUp
+  signUp,
+  logIn
 };

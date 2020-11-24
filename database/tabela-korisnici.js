@@ -14,7 +14,7 @@ const korisnici={
       throw err;
     }
   },
-  select1: async function(id){
+  selectID: async function(id){
     let conn;
     try {
       conn = await pool.getConnection();
@@ -22,6 +22,17 @@ const korisnici={
       //console.log(res); 
       conn.end();
       return res;
+    } catch (err) {
+      throw err;
+    }
+  },
+  selectUsername: async function(username){
+    let conn;
+    try {
+      conn = await pool.getConnection();
+      const res = await conn.query("SELECT * from "+tabela+" where username=?", [username]);
+      conn.end();
+      return res[0];
     } catch (err) {
       throw err;
     }

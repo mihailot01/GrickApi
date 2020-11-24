@@ -1,9 +1,9 @@
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
-     host: "127.0.0.1", 
-     user: 'root', 
-     password: '',
-     database: 'grick'
+     host: process.env.DB_HOST, 
+     database: process.env.DB_NAME,
+     user: process.env.DB_USER, 
+     password: process.env.DB_PASS,
      //connectionLimit: 5
 });
 
