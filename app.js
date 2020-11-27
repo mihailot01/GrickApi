@@ -25,6 +25,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/sastojci', require('./routes/sastojci'));
 app.use('/korisnici', require('./routes/korisnici'));
+app.use('/recepti', require('./routes/recepti'));
+
 
 
 // catch 404 and forward to error handler

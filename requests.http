@@ -15,3 +15,21 @@ content-type: application/json
     "username": "mihailo",
     "password": "1234"
 }
+
+
+###
+POST http://localhost:3000/recepti HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJpZmlrb3ZhbiI6MCwiaWF0IjoxNjA2NDk5NTE1fQ.lQhLXLU8A06X2m-D4YTTWIfJVzsLlGfUfL9BSYRabDs
+
+{
+    "naziv":"recept1",
+    "autor": "14",
+    "opis": "ovo je neki opis",
+    "sastojci": [1,2,3],
+    "koraci": [{"tekst":"korak1"},{"tekst":"korak2"},{"tekst":"korak3"},{"tekst":"korak4"}]
+}
+
+###
+GET http://localhost:3000/recepti HTTP/1.1
+

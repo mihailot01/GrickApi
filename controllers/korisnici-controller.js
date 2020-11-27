@@ -1,5 +1,5 @@
 const korisnici=require('../database/tabela-korisnici');
-const jwt=require('../auth/jwt');
+const {generisiToken}=require('../auth/jwt');
 const bcrypt = require('bcrypt');
 const { JsonWebTokenError } = require('jsonwebtoken');
 const saltRounds = 10;
@@ -48,13 +48,13 @@ async function logIn(req,res){
   try{
     const k = await korisnici.selectUsername(req.body.username);
     if(k==undefined)
-      return res.status(401).json({err:'Pogrešno korisničko ime'});
+      return res.status(403).json({err:'Pogrešno korisničko ime'});
     //console.log(req.body.password, k.password)
     const match = await bcrypt.compare(req.body.password, k.password);
     if(!match)
-      return res.status(401).json({err:'Pogrešna lozinka'});
+      return res.status(403).json({err:'Pogrešna lozinka'});
 
-    const token=jwt.generisiToken(k.id,k.verifikovan);
+    const token=await generisiToken(k.id,k.verifikovan);
     res.status(200).json({token:token});
   } catch(err){
     console.error(err);
