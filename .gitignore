@@ -2,3 +2,4 @@ node_modules
 *.http
 slike
 .vscode
+.env
