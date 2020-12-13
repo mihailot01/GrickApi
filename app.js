@@ -27,7 +27,7 @@ app.use('/sastojci', require('./routes/sastojci'));
 app.use('/korisnici', require('./routes/korisnici'));
 app.use('/recepti', require('./routes/recepti'));
 
-
+app.use('/fileTest', require('./routes/fileTest'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
