@@ -25,6 +25,28 @@ router.post('/',upload.single('slika'), function(req, res, next) {
   });
 });
 
+router.post('/multiple',upload.any(), function(req, res, next) {
+  console.log("fileTest2", req.files)
+  /*for(const file of req.files)
+  {
+    const tempPath = req.file.path;
+    const targetPath = path.join(tempPath, "../slika.png");
+    console.log(tempPath, targetPath);
+    fs.rename(tempPath, targetPath, err => {
+      if (err) 
+        res
+          .status(500)
+          .contentType("text/plain")
+          .end("Oops! Something went wrong!");
+    
+    });
+  }*/
+  res
+    .status(200)
+    .contentType("text/plain")
+    .end("File uploaded!");
+});
+
 router.get('/',function(req,res){
   res.send("file Test GET")
 })
