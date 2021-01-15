@@ -7,7 +7,7 @@ const receptiSastojci={
     let conn;
     try {
       conn = await pool.getConnection();
-      const res = await conn.query("SELECT * from "+tabela+" JOIN sastojci USING(id_sastojka) WHERE id_recepta=?", [id_recepta]);
+      const res = await conn.query("SELECT id_sastojka,naziv,kolicina from "+tabela+" JOIN sastojci USING(id_sastojka) WHERE id_recepta=?", [id_recepta]);
       //console.log(res); 
       conn.end();
       return res;
@@ -20,11 +20,11 @@ const receptiSastojci={
     let conn;
     try {
       conn = await pool.getConnection();
-      let q="INSERT INTO "+tabela+"(id_recepta,id_sastojka) VALUES ";
+      let q="INSERT INTO "+tabela+"(id_recepta,id_sastojka,kolicina) VALUES ";
       let params=[];
       sastojci.forEach(sastojak => {
-        q+="(?,?),";
-        params.push(id_recepta,sastojak);
+        q+="(?,?,?),";
+        params.push(id_recepta,sastojak.id_sastojka,sastojak.kolicina);
       });
       q = q.substring(0,q.length-1);
       //console.log(q);
