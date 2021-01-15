@@ -7,7 +7,7 @@ const recepti={
     let conn;
     try {
       conn = await pool.getConnection();
-      const res = await conn.query("SELECT recepti.*,korisnici.username from "+tabela+" JOIN korisnici ON autor=id_korisnika");
+      const res = await conn.query("SELECT id_recepta, naziv, datum_kreiranja, opis ,korisnici.username as autor from "+tabela+" JOIN korisnici ON autor=id_korisnika");
       //const recepti=res[0];
       conn.end();
       return res;
