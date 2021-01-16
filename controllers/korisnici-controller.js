@@ -54,7 +54,7 @@ async function logIn(req,res){
     if(!match)
       return res.status(403).json({err:'Pogrešna lozinka'});
 
-    const token=await generisiToken(k.id,k.verifikovan);
+    const token=await generisiToken(k.id_korisnika,k.verifikovan);
     res.status(200).json({token:token});
   } catch(err){
     console.error(err);

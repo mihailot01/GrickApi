@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-const generisiToken = async (id,verifikovan) => {
-  return await jwt.sign({id:id,verifikovan:verifikovan}, process.env.TOKEN_SECRET);
+const generisiToken = async (id_korisnika,verifikovan) => {
+  return await jwt.sign({id_korisnika:id_korisnika,verifikovan:verifikovan}, process.env.TOKEN_SECRET);
 };
 
 const proveriToken = async function (token){
@@ -13,9 +13,9 @@ const auth = async function(req,res,next){
     console.log(req.headers.authorization);
     const t=(req.headers.authorization.split(" "))[1];
     console.log(t);
-    const dektriptovan=await proveriToken(t);
-    req.dektriptovan=dektriptovan;
-    console.log(dektriptovan);
+    const dekriptovan=await proveriToken(t);
+    req.dekriptovan=dekriptovan;
+    console.log(dekriptovan);
     next();
   }catch(err){
     console.error(err);
