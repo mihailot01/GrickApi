@@ -70,7 +70,7 @@ async function omiljeniRecepti(req, res) {
 async function noviRecept(req,res){
 
   try{
-    //req.body.autor=req.dekriptovan.id_korisnika;
+    req.body.autor=req.dekriptovan.id_korisnika;
     //console.log(req.dekriptovan.id_korisnika,req.body);
     const r=await recepti.insert(req.body);
     const id_recepta=r.insertId;
