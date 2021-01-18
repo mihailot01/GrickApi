@@ -15,6 +15,19 @@ const svidjanja={
       throw err;
     }
   },
+  selectCnt: async function(id_recepta)
+  {
+    let conn;
+    try {
+      conn = await pool.getConnection();
+      const res = await conn.query("SELECT COUNT(*) as br from "+tabela+" WHERE id_recepta=?", [id_recepta]);
+      //console.log(res); 
+      conn.end();
+      return res[0].br;
+    } catch (err) {
+      throw err;
+    }
+  },
   staviLajk: async function(id_korisnika,id_recepta) {
     let conn;
     

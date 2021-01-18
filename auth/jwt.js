@@ -8,6 +8,17 @@ const proveriToken = async function (token){
   return await jwt.verify(token,process.env.TOKEN_SECRET);
 };
 
+const decrypt = async function(authorization){
+  try{
+    const t=(authorization.split(" "))[1];
+    console.log(t);
+    const dekriptovan=await proveriToken(t);
+    return dekriptovan;
+  }catch(err){
+    return null;  
+  }
+}
+
 const auth = async function(req,res,next){
   try{
     console.log(req.headers.authorization);
@@ -27,4 +38,5 @@ const auth = async function(req,res,next){
 module.exports={
   generisiToken,
   proveriToken,
+  decrypt,
   auth};
