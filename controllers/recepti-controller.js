@@ -39,7 +39,11 @@ async function mojiRecepti(req, res) {
       r[i].koraci=await koraci.select(r[i].id_recepta); 
       r[i].sastojci=await receptiSastojci.select(r[i].id_recepta);
       r[i].svidjanja=await svidjanja.selectCnt(r[i].id_recepta);
-      r[i].lajkovan=true;
+      if(id_korisnika!=null)
+      {
+        ret=await svidjanja.select(id_korisnika,r[i].id_recepta);
+        r[i].lajkovan=ret.length>0;
+      }
     }
     res.status(200).json(r);
   }
@@ -58,6 +62,7 @@ async function omiljeniRecepti(req, res) {
       r[i].koraci=await koraci.select(r[i].id_recepta); 
       r[i].sastojci=await receptiSastojci.select(r[i].id_recepta);
       r[i].svidjanja=await svidjanja.selectCnt(r[i].id_recepta);
+      r[i].lajkovan=true;
     }
     res.status(200).json(r);
   }

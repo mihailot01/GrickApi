@@ -1,8 +1,9 @@
 const sastojci=require('../database/tabela-sastojci');
 
 async function prikazi(req, res) {
+  //console.log(req.query.pretraga);
   try{
-    const s = await sastojci.select();
+    const s = await sastojci.select(req.query.pretraga);
     res.status(200).json(s);
   }
   catch(err){
