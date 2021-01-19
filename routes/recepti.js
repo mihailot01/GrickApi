@@ -6,6 +6,7 @@ const {
   prikazi,
   mojiRecepti,
   omiljeniRecepti,
+  pretraga,
   noviRecept,
   staviLajk,
   skiniLajk
@@ -16,6 +17,7 @@ const recepti = require('../database/tabela-recepti');
 router.get('/', prikazi);
 router.get('/moji', auth, mojiRecepti);
 router.get('/omiljeni', auth, omiljeniRecepti);
+router.get('/pretraga', pretraga);
 router.post('/', auth, noviRecept);
 router.post('/:id_recepta/like', auth, staviLajk);
 router.post('/:id_recepta/dislike', auth, skiniLajk);

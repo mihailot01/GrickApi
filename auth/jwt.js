@@ -10,6 +10,8 @@ const proveriToken = async function (token){
 
 const decrypt = async function(authorization){
   try{
+    if(authorization==undefined)
+      return null;
     const t=(authorization.split(" "))[1];
     console.log(t);
     const dekriptovan=await proveriToken(t);

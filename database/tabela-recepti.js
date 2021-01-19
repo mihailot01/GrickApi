@@ -1,4 +1,5 @@
 const pool = require('./connection');
+const { select } = require('./tabela-recepti-sastojci');
 const tabela='recepti';
 
 const recepti={
@@ -14,6 +15,35 @@ const recepti={
     } catch (err) {
       throw err;
     }
+  },
+  selectParams: async function(params)
+  {
+    if(params.sastojci==undefined)
+      return this.select();
+      let conn;
+      try {
+        let qParams=[];
+        let pom="(";
+        params.sastojci.forEach(sastojak => {
+          pom+="?,";
+          qParams.push(sastojak);
+        });
+        pom = pom.substring(0,pom.length-1);
+        pom +=")";
+        qParams.push(params.sastojci.length);
+        conn = await pool.getConnection();
+        let q="SELECT * FROM "+tabela
+        +" JOIN recepti_sastojci USING(id_recepta)" 
+        +" WHERE id_sastojka IN"+pom
+        +" GROUP BY id_recepta"
+        +" HAVING COUNT(DISTINCT id_sastojka) = ?";
+        const res = await conn.query(q,qParams);
+        //const recepti=res[0];
+        conn.end();
+        return res;
+      } catch (err) {
+        throw err;
+      }
   },
   selectMoji: async function(id_korisnika){
     let conn;
