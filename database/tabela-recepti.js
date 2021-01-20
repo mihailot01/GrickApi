@@ -16,6 +16,18 @@ const recepti={
       throw err;
     }
   },
+  select1: async function(id_recepta) {
+    let conn;
+    try {
+      conn = await pool.getConnection();
+      const res = await conn.query("SELECT id_recepta, naziv, datum_kreiranja, opis ,korisnici.username as autor, slika from "+tabela+" JOIN korisnici ON autor=id_korisnika WHERE id_recepta=?", [id_recepta]);
+      //const recepti=res[0];
+      conn.end();
+      return res[0];
+    } catch (err) {
+      throw err;
+    }
+  },
   selectParams: async function(params)
   {
     if(params.sastojci==undefined)

@@ -30,6 +30,31 @@ async function prikazi(req, res) {
   }
 }
 
+async function prikazi1(req, res) {
+  try{
+    id_recepta=parseInt(req.params.id_recepta);
+    let id_korisnika = await jwt.decrypt(req.headers.authorization);
+    if(id_korisnika!=null)
+      id_korisnika=id_korisnika.id_korisnika;
+    const r= await recepti.select1(id_recepta);
+    r.koraci=await koraci.select(r.id_recepta); 
+    r.sastojci=await receptiSastojci.select(r.id_recepta);
+    r.svidjanja=await svidjanja.selectCnt(r.id_recepta);
+    if(id_korisnika!=null)
+    {
+      ret=await svidjanja.select(id_korisnika,r.id_recepta);
+      r.lajkovan=ret.length>0;
+    }
+    res.status(200).json(r);
+  }
+  catch(err){
+    console.error(err);
+    res.status(500).json(err);
+  }
+}
+
+
+
 async function mojiRecepti(req, res) {
   try{
     const id_korisnika=req.dekriptovan.id_korisnika;
@@ -156,6 +181,7 @@ async function skiniLajk(req,res){
 
 module.exports = {
   prikazi,
+  prikazi1,
   mojiRecepti,
   omiljeniRecepti,
   pretraga,

@@ -4,6 +4,7 @@ var router = express.Router();
 var {auth}=require('../auth/jwt');
 const { 
   prikazi,
+  prikazi1,
   mojiRecepti,
   omiljeniRecepti,
   pretraga,
@@ -15,6 +16,7 @@ const recepti = require('../database/tabela-recepti');
 
 /* GET users listing. */
 router.get('/', prikazi);
+router.get('/:id_recepta', prikazi1);
 router.get('/moji', auth, mojiRecepti);
 router.get('/omiljeni', auth, omiljeniRecepti);
 router.get('/pretraga', pretraga);
