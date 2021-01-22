@@ -32,30 +32,31 @@ const recepti={
   {
     if(params.sastojci==undefined)
       return this.select();
-      let conn;
-      try {
-        let qParams=[];
-        let pom="(";
-        params.sastojci.forEach(sastojak => {
-          pom+="?,";
-          qParams.push(sastojak);
-        });
-        pom = pom.substring(0,pom.length-1);
-        pom +=")";
-        qParams.push(params.sastojci.length);
-        conn = await pool.getConnection();
-        let q="SELECT * FROM "+tabela
-        +" JOIN recepti_sastojci USING(id_recepta)" 
-        +" WHERE id_sastojka IN"+pom
-        +" GROUP BY id_recepta"
-        +" HAVING COUNT(DISTINCT id_sastojka) = ?";
-        const res = await conn.query(q,qParams);
-        //const recepti=res[0];
-        conn.end();
-        return res;
-      } catch (err) {
-        throw err;
-      }
+    let conn;
+    try {
+      let qParams=[];
+      let pom="(";
+      params.sastojci.forEach(sastojak => {
+        pom+="?,";
+        qParams.push(sastojak);
+      });
+      pom = pom.substring(0,pom.length-1);
+      pom +=")";
+      qParams.push(params.sastojci.length);
+      conn = await pool.getConnection();
+      let q="SELECT *,korisnici.username as autor FROM "+tabela
+      +" JOIN korisnici ON autor=id_korisnika"
+      +" JOIN recepti_sastojci USING(id_recepta)" 
+      +" WHERE id_sastojka IN"+pom
+      +" GROUP BY id_recepta"
+      +" HAVING COUNT(DISTINCT id_sastojka) = ?";
+      const res = await conn.query(q,qParams);
+      //const recepti=res[0];
+      conn.end();
+      return res;
+    } catch (err) {
+      throw err;
+    }
   },
   selectMoji: async function(id_korisnika){
     let conn;
