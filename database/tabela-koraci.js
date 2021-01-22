@@ -34,8 +34,22 @@ const koraci={
     } catch (err) {
       throw err;
     }
+  },
+  
+  upisiSliku: async function(putanja,id_recepta, ind){
+    let conn;
+    try {
+      conn = await pool.getConnection();
+      const res = await conn.query("UPDATE "+tabela+" SET slika=? WHERE id_recepta=? AND ind=?", [putanja,id_recepta,ind]);
+      console.log(res); 
+      if(res.affectedRows==0)
+        throw new Error('Nije uspelo upisivanje u bazu');
+      conn.end();
+      return res;
+    } catch (err) {
+      throw err;
+    }
   }
-
 }
 
 module.exports=koraci;
