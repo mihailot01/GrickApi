@@ -4,12 +4,15 @@ var router = express.Router();
 const path = require("path");
 var fs=require('fs');
 var upload = multer({ dest: 'slike/' })
+const recepti=require('../database/tabela-recepti');
 
 /* GET home page. */
 router.post('/',upload.single('slika'), function(req, res, next) {
-  console.log("fileTest")
+  console.log("fileTest");
+  const id_recepta= parseInt(req.body.id_recepta);
+  console.log(req.body.id_recepta);
   const tempPath = req.file.path;
-  const targetPath = path.join(tempPath, "../slika.png");
+  const targetPath = path.join(tempPath, "../slika"+id_recepta+".png");
   console.log(tempPath, targetPath);
   fs.rename(tempPath, targetPath, err => {
     if (err) 
@@ -18,10 +21,20 @@ router.post('/',upload.single('slika'), function(req, res, next) {
         .contentType("text/plain")
         .end("Oops! Something went wrong!");
     else
-      res
+    {
+      try {
+        var response=recepti.upisiSliku(process.env.ADRESA+targetPath,id_recepta);
+        res
         .status(200)
         .contentType("text/plain")
-        .end("File uploaded!");
+        .json(response);
+      } catch (error) {
+        res
+        .status(500)
+        .contentType("text/plain")
+        .end("GRESKA PRI UPISIVANJU!");
+      }
+    }
   });
 });
 
