@@ -44,7 +44,7 @@ const recepti={
       pom +=")";
       qParams.push(params.sastojci.length);
       conn = await pool.getConnection();
-      let q="SELECT *,korisnici.username as autor FROM "+tabela
+      let q="SELECT id_recepta, naziv, datum_kreiranja, opis ,korisnici.username as autor, slika FROM "+tabela
       +" JOIN korisnici ON autor=id_korisnika"
       +" JOIN recepti_sastojci USING(id_recepta)" 
       +" WHERE id_sastojka IN"+pom
