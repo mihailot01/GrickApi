@@ -3,3 +3,4 @@ node_modules/
 slike
 .vscode
 .env
+*.apk
