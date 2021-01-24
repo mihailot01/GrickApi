@@ -27,6 +27,7 @@ app.use('/sastojci', require('./routes/sastojci'));
 app.use('/korisnici', require('./routes/korisnici'));
 app.use('/recepti', require('./routes/recepti'));
 app.use('/spisak', require('./routes/spisak'))
+app.use('/apk', require('./routes/apk'));
 
 app.use('/fileTest', require('./routes/fileTest'));
 
